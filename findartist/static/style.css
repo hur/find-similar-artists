@@ -1,0 +1,53 @@
+body {
+    font-size: 1.3em;
+    margin-bottom: 1.3em;
+}
+
+#aligner {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    height:100%;
+}
+
+#pal {
+    /*background-color: #f8f7f1;*/
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 1em 10px;
+    max-width:95%;
+    text-align:center;
+}
+
+form {
+    margin-top: 1em;
+}
+
+#artist, #artistbtn {
+    padding: 3px;
+    text-align: center;
+    border: 1px solid lightgray;
+    display: inline-block;
+    border-radius: 0;
+    -webkit-appearance: none;
+
+}
+
+#artistbtn {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+#artistbtn::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+input:required {
+    box-shadow:none;
+}
+input:invalid {
+    box-shadow:0 0 0 0;
+}

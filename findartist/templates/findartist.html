@@ -1,0 +1,26 @@
+<head>
+<link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="aligner">
+    <div id ="pal">
+        <form method="POST" action="/findartist">
+            {{ form.csrf_token }}
+            {{ form.artist }}<input id="artistbtn" type="submit" value="Submit">
+        </form>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="flashes">{{ message }}</p>
+            {% endfor %}
+        {% else %}
+            <p class="flashes">&nbsp</p>
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+
+</body>
