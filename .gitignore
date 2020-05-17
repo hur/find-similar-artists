@@ -1,6 +1,9 @@
 # Logs
 [Ll]ogs/
 
+# redis dumps and other files
+*.rdb
+
 # PyCharm
 .idea/
 

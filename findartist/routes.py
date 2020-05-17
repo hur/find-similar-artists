@@ -3,8 +3,11 @@ import time
 import spotipy
 import spotipy.util as util
 from flask import Blueprint, render_template, redirect, url_for, current_app, session, request, abort, flash
+from rq.exceptions import NoSuchJobError
+from rq.job import Job
+
 from findartist.forms import ArtistForm
-from findartist.spotify import get_artist, scrape_music_map, generate_playlist
+from findartist.spotify import generate_playlist
 
 main = Blueprint("main", __name__, static_folder='static')
 
@@ -88,9 +91,10 @@ def post_artist():
     if form.validate_on_submit():
         job = current_app.task_queue.enqueue_call(func=generate_playlist,
                                                   args=(form.artist.data, sp_user, sp_app),
-                                                  result_ttl=5000)
-        print(job.get_id())
-        flash("Playlist creation in process.")
+                                                  result_ttl=3600)
+        job_id = job.get_id()
+        print(job_id)
+        flash(f"Playlist creation in process. Go to {url_for('main.get_results', job_key=job_id)}")
         return redirect(url_for('main.findartist'))
     else:
         print('form didnt validate')
@@ -127,3 +131,15 @@ def get_token(curr_session: session):
 
     token_valid = True
     return token_info, token_valid
+
+
+@main.route('/results/<job_key>')
+def get_results(job_key):
+    try:
+        job = Job.fetch(job_key, connection=current_app.redis)
+    except NoSuchJobError:
+        return "Job not found."
+    if job.is_finished:
+        return str(job.result), 200
+    else:
+        return "Nay!", 202

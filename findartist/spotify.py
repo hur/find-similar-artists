@@ -35,11 +35,12 @@ def scrape_music_map(artist: str):
     sw = soup.find('div', id='gnodMap')
 
     if sw is None:
-        print("artist not found")
+        print("artist not found / div gnodMap not found")
 
     similar_artists = sw.find_all('a', class_='S')
     result = []
-
+    if not similar_artists:
+        print("no similar artists found. music-map html changed?")
     for artist in similar_artists:
         result.append(artist.text)
 
@@ -63,6 +64,11 @@ def generate_playlist(artist: str, sp_user: Spotify, sp_app: Spotify):
                 continue
             artist_id = page['uri']
             top_tracks = sp_app.artist_top_tracks(artist_id)
+            if len(top_tracks['tracks']) == 0:
+                # Handle the case of no top tracks.
+                print(top_tracks)
+                print("No top tracks found")
+                continue
             track = top_tracks['tracks'][0]['uri']
             track_ids.append(track)
         except SpotifyException as e:
@@ -78,10 +84,11 @@ def generate_playlist(artist: str, sp_user: Spotify, sp_app: Spotify):
                                                                 'FindSimilarArtists')
             playlist_id = playlist['uri']
             sp_user.user_playlist_add_tracks(sp_user.me()['id'], playlist_id, track_ids)
+            return dict(name=playlist_name, id=playlist_id, artists=similar_artists)
         except SpotifyException as e:
             print(e)
             print(e.http_status)
     else:
         print("track_ids is empty")
         print("Similar artists:" + similar_artists)
-
+        return "No spotify tracks found"
