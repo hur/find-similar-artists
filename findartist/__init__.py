@@ -1,5 +1,7 @@
+import redis
 from flask import Flask
 from config import Config, TestConfig
+from rq import Queue
 
 
 def create_app(testing=False):
@@ -8,6 +10,9 @@ def create_app(testing=False):
         app.config.from_object(TestConfig)
     else:
         app.config.from_object(Config)
+
+    app.redis = redis.from_url(app.config['REDIS_URL'])
+    app.task_queue = Queue(connection=app.redis)
 
     from findartist.routes import main
 
