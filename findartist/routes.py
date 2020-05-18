@@ -1,8 +1,7 @@
 import time
 
 import spotipy
-import spotipy.util as util
-from flask import Blueprint, render_template, redirect, url_for, current_app, session, request, abort, flash
+from flask import Blueprint, render_template, redirect, url_for, current_app, session, request, abort, flash, Markup, g
 from rq.exceptions import NoSuchJobError
 from rq.job import Job
 
@@ -90,11 +89,12 @@ def post_artist():
     # If user input is valid, proceed. Else, try again.
     if form.validate_on_submit():
         job = current_app.task_queue.enqueue_call(func=generate_playlist,
-                                                  args=(form.artist.data, sp_user, sp_app),
-                                                  result_ttl=3600)
+                                                  args=(form.artist.data, sp_user, sp_app, False),
+                                                  result_ttl=1800)
         job_id = job.get_id()
         print(job_id)
-        flash(f"Playlist creation in process. Go to {url_for('main.get_results', job_key=job_id)}")
+        flash(Markup(f"Playlist creation in process. <a href='{url_for('main.get_results', job_key=job_id)}'>Check "
+                     f"job progress</a>"))
         return redirect(url_for('main.findartist'))
     else:
         print('form didnt validate')
@@ -135,11 +135,16 @@ def get_token(curr_session: session):
 
 @main.route('/results/<job_key>')
 def get_results(job_key):
+    uri_prefix = 'spotify:playlist:'
     try:
         job = Job.fetch(job_key, connection=current_app.redis)
     except NoSuchJobError:
-        return "Job not found."
+        return render_template('results.html', job_error="Job not found")
     if job.is_finished:
-        return str(job.result), 200
+        if type(job.result) == str and job.result.startswith(uri_prefix):
+            uri = job.result[len(uri_prefix):]
+            return render_template('results.html', result=uri)
+        else:
+            return render_template('results.html', job_error=str(job.result))
     else:
-        return "Nay!", 202
+        return render_template('results.html', job_error="Job is not finished. Try refreshing the page soon to see results")

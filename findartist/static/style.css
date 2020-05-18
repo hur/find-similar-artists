@@ -52,3 +52,15 @@ input:required {
 input:invalid {
     box-shadow:0 0 0 0;
 }
+
+a {
+    color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: black;
+}

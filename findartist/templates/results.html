@@ -1,0 +1,21 @@
+<head>
+<link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="aligner">
+    <div id ="pal">
+        {% if job_error %}
+            {{ job_error }}
+        {% elif result %}
+            <p>Job finished.</p>
+            <iframe src="https://open.spotify.com/embed/playlist/{{ result }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
+        {% else %}
+            Job not found!
+        {% endif %}
+    </div>
+</div>
+
+</body>
