@@ -1,6 +1,8 @@
 """Defines fixtures available to all tests."""
 
 import pytest
+from rq import SimpleWorker
+
 from findartist import create_app
 
 
@@ -16,6 +18,18 @@ def app():
 
 
 @pytest.fixture
-def client(app, db):
+def client(app):
     """Flask test client"""
     return app.test_client()
+
+
+@pytest.fixture(scope='function')
+def worker(app):
+    _worker = SimpleWorker([app.task_queue], connection=app.redis)
+    return _worker
+
+
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers", "long: mark test as long running (deselect with '-m \"not long\"') "
+    )

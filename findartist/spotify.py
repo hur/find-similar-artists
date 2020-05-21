@@ -1,3 +1,6 @@
+import time
+
+from flask import current_app
 from spotipy import Spotify, SpotifyException
 import requests
 from bs4 import BeautifulSoup
@@ -105,7 +108,7 @@ def generate_playlist(search: str, sp_user: Spotify, sp_app: Spotify, use_musicm
         artist = get_artist(search, sp_user)
         if not artist:
             return False
-        track_ids = generate_track_ids_musicmap(artist, sp_app)
+        track_ids = generate_track_ids_musicmap(artist, sp_user)
     else:
         if search.startswith(uri_prefix) and not use_musicmap:
             artist = sp_user.artist(search)
@@ -155,3 +158,14 @@ def generate_track_ids_spotify(artist: dict, sp: Spotify):
         track = top_tracks['tracks'][0]['uri']
         track_ids.append(track)
     return track_ids
+
+
+def handle_rate_limiting(e: SpotifyException):
+    if 'Retry-After' in e.headers:
+        limit = e.headers['Retry-After']
+        if type(limit) == int:
+            return current_app.task_queue.enqueue(time.sleep, limit, at_front=True)
+        else:
+            print("Bad Retry-After header. No action taken.")
+            print(limit)
+
