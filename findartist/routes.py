@@ -134,7 +134,12 @@ def get_token(curr_session: session):
 
 
 @main.route('/results/<job_key>')
-def get_results(job_key):
+def get_results(job_key: str):
+    """
+    Renders the progress report for a particular job or displays an error message if job is not found.
+    @param job_key: the job key
+    @return: renders the appropriate page.
+    """
     uri_prefix = 'spotify:playlist:'
     try:
         job = Job.fetch(job_key, connection=current_app.redis)
