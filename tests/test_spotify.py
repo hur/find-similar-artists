@@ -9,7 +9,7 @@ class TestSpotifyMethods:
     @pytest.mark.long
     def test_mock_handle_rate_limiting_429(self, app, worker):
         """ Tests that a SpotifyException with a Retry-After header gets added to queue and is finished properly """
-        mock_exception = SpotifyException(http_status=429, code=-1, msg="Mock exception", headers={'Retry-After': 5})
+        mock_exception = SpotifyException(http_status=429, code=-1, msg="Mock exception", headers={'Retry-After': 1})
         job = findartist.spotify.handle_rate_limiting(mock_exception)
 
         assert job in app.task_queue.jobs
