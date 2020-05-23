@@ -133,5 +133,11 @@ header {
     header {
         max-width: 100%;
     }
+
+@media only screen and (max-device-width: 380px) {
+    #artist, #artistbtn {
+        font-size: 1em;
+    }
+}
 }
 
