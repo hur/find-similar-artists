@@ -28,4 +28,3 @@ class TestSpotifyMethods:
         mock_exception = SpotifyException(http_status=429, code=-1, msg="Mock exception", headers={'Retry-After': '5'})
         job = findartist.spotify.handle_rate_limiting(mock_exception)
         assert job is None
-

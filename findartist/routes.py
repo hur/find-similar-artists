@@ -11,7 +11,7 @@ from findartist.spotify import generate_playlist
 main = Blueprint("main", __name__, static_folder='static')
 
 
-@main.route('/findartist', methods=['GET'])
+@main.route('/', methods=['GET'])
 def findartist():
     """
     The main page of the application.
@@ -21,7 +21,7 @@ def findartist():
     return render_template('findartist.html', form=form)
 
 
-@main.route('/')
+@main.route('/authorize')
 def verify():
     """
     Spotify authorization code flow step 1. See
@@ -61,7 +61,7 @@ def callback():
     return redirect(url_for("main.findartist"))
 
 
-@main.route('/findartist', methods=['POST'])
+@main.route('/', methods=['POST'])
 def post_artist():
     """
     Spotify authorization code flow step 3. See
@@ -88,8 +88,9 @@ def post_artist():
 
     # If user input is valid, proceed. Else, try again.
     if form.validate_on_submit():
+        print(form.use_musicmap.data)
         job = current_app.task_queue.enqueue_call(func=generate_playlist,
-                                                  args=(form.artist.data, sp_user, sp_app, False),
+                                                  args=(form.artist.data, sp_user, sp_app, form.use_musicmap.data),
                                                   result_ttl=1800)
         job_id = job.get_id()
         print(job_id)
@@ -152,4 +153,10 @@ def get_results(job_key: str):
         else:
             return render_template('results.html', job_error=str(job.result))
     else:
-        return render_template('results.html', job_error="Job is not finished. Try refreshing the page soon to see results")
+        return render_template('results.html',
+                               job_error="Job is not finished. Try refreshing the page soon to see results.")
+
+
+@main.route('/about')
+def about():
+    return render_template('about.html')

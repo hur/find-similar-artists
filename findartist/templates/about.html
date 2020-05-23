@@ -1,0 +1,35 @@
+<head>
+<link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="aligner">
+    <div id ="pal">
+        <header>
+            <h1>About this website</h1>
+            <p id="text">
+                Enter an artist name, and the website will generate a playlist of top songs of recommended artists based on your input.
+                Fetches recommended artists from Spotify or <a href="https://www.music-map.com/">Music-map</a> depending on your choice.
+                Also supports Spotify URIs (e.g. 'spotify:artist:xxxxxxx')
+            </p>
+            <h2>Using Music-map recommendations</h2>
+            <p id="text">
+                When using Music-map for recommendations, playlist generation will take a slightly longer time
+                (but you will usually get different recommendations).
+            </p>
+            <h2>Issues, suggestions, bugs?</h2>
+            <p id="text">
+                Open an issue on the <a href="https://github.com/hur/find-similar-artists/">GitHub Page</a>
+                or email me at <a href="mailto:playlist@atteniemi.com">findartists@atteniemi.com</a>
+            </p>
+        </header>
+    </div>
+    <div id="footer">
+        <a href="https://github.com/hur/find-similar-artists/">GitHub Source</a>
+        <span id="footer-space">-</span>
+        <a href={{url_for('main.findartist')}}>Main Page</a>
+    </div>
+</div>
+</body>

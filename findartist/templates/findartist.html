@@ -1,14 +1,15 @@
 <head>
 <link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-
 <div id="aligner">
     <div id ="pal">
-        <form method="POST" action="/findartist">
+        <p id="selector">Search using: <span id="selected">Spotify</span> | <span id="unselected" onclick=chooseMethod(use_musicmap=true)>Music-map</span></p>
+        <form method="POST" action="{{ url_for('main.findartist') }}">
             {{ form.csrf_token }}
+            {{ form.use_musicmap }}
             {{ form.artist }}<input id="artistbtn" type="submit" value="Submit">
         </form>
         {% with messages = get_flashed_messages() %}
@@ -21,6 +22,22 @@
         {% endif %}
         {% endwith %}
     </div>
+    <div id="footer">
+        <a href="https://github.com/hur/find-similar-artists/">GitHub Source</a>
+        <span id="footer-space">-</span>
+        <a href={{url_for('main.about')}}>About</a>
+    </div>
 </div>
-
+<script>
+    function chooseMethod(use_musicmap=false) {
+        const display = document.getElementById('selector');
+        if (use_musicmap === true) {
+            display.innerHTML = 'Search using: <span id="unselected" onclick=chooseMethod(use_musicmap=false)>Spotify</span> | <span id="selected">Music-map</span>';
+            document.getElementById('use_musicmap').click();
+        } else {
+            display.innerHTML = 'Search using: <span id="selected">Spotify</span> | <span id="unselected" onclick=chooseMethod(use_musicmap=true)>Music-map</span>';
+            document.getElementById('use_musicmap').click();
+        }
+    }
+</script>
 </body>

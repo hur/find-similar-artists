@@ -27,7 +27,7 @@ def get_artist(name: str, sp: Spotify):
         # Get the top search result
         return items[0]
     else:
-        print(name + ": no matches on Spotify")
+        print(name + ": no matches.")
         return None
 
 
@@ -152,9 +152,11 @@ def generate_track_ids_musicmap(artist: dict, sp: Spotify):
     track_ids = []
     similar_artists = scrape_music_map(artist['name'])
     for artist in similar_artists:
-        artist_id = get_artist(artist, sp)['uri']
-        if artist_id is None:
+        artist_obj = get_artist(artist, sp)
+        if artist_obj is None:
             continue
+        artist_id = artist_obj['uri']
+
         top_tracks = get_top_tracks(artist_id, sp)
         if not top_tracks:
             continue

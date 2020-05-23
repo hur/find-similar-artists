@@ -1,6 +1,9 @@
 body {
-    font-size: 1.3em;
-    margin-bottom: 1.3em;
+    font-size: 1em;
+    margin-bottom: 1em;
+    background-color: #23201f;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
 }
 
 #aligner {
@@ -9,22 +12,47 @@ body {
     justify-content:center;
     flex-direction: column;
     height:100%;
+    background-color: inherit;
 }
 
 #pal {
     /*background-color: #f8f7f1;*/
-    background: #ffffff;
     border-radius: 5px;
     padding: 1em 10px;
     max-width:95%;
     text-align:center;
+    background-color: inherit;
+}
+
+#selector:hover {
+    cursor: default;
+}
+
+#selected {
+    color: #1DB954;
+    text-decoration: underline;
+  }
+
+#unselected:hover {
+    text-decoration: underline;
+}
+
+#unselected {
+    text-decoration: none;
 }
 
 form {
+    font-family: 'Montserrat', sans-serif;
     margin-top: 1em;
+
+}
+
+#use_musicmap {
+    display: none;
 }
 
 #artist, #artistbtn {
+    font-family: inherit;
     font-size: 1.5em;
     padding: 3px;
     text-align: center;
@@ -32,6 +60,9 @@ form {
     display: inline-block;
     border-radius: 0;
     -webkit-appearance: none;
+    color: white;
+    background-color: #4b4847;
+    border-color: #1DB954;
 
 }
 
@@ -39,6 +70,7 @@ form {
     display: inline-flex;
     align-items: center;
     border: 1px solid transparent;
+    background-color: #3c3938;
 }
 
 #artistbtn::-moz-focus-inner {
@@ -54,7 +86,7 @@ input:invalid {
 }
 
 a {
-    color: black;
+    color: #1DB954;
 }
 
 a:hover {
@@ -62,5 +94,44 @@ a:hover {
 }
 
 a:visited {
-    color: black;
+    color: #1DB954;
 }
+
+
+#footer {
+    text-align: center;
+    position: fixed;
+    height: 1.3em;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+    font-size: 0.9em;
+}
+
+
+#footer a, #footer a:visited  {
+    color: white;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    text-decoration: underline;
+}
+
+.footer-space {
+    margin: 0;
+}
+
+header {
+    margin: auto;
+    text-align: left;
+    max-width: 640px;
+}
+
+@media only screen and (max-device-width: 641px) {
+    header {
+        max-width: 100%;
+    }
+}
+
