@@ -127,12 +127,14 @@ def generate_playlist(search: str, sp_user: Spotify, sp_app: Spotify, use_musicm
             artist = sp_user.artist(search)
         else:
             artist = get_artist(search, sp_user)
+            print(artist)
         if not artist:
             return "Artist not found"
         track_ids = generate_track_ids_spotify(artist, sp_user)
     if track_ids:
         playlist_name = artist['name'] + " recommendations"
         status = create_and_populate_playlist(playlist_name, track_ids, sp_user)
+        print(status)
         if status:
             return status
         else:
