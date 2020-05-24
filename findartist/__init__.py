@@ -15,7 +15,7 @@ def create_app(testing: bool = False) -> object:
     if testing:
         app.config.from_object(TestConfig)
         app.redis = FakeStrictRedis()
-        app.task_queue = Queue(connection=app.redis)
+        app.task_queue = Queue('standard', connection=app.redis)
     else:
         app.config.from_object(Config)
         app.redis = redis.from_url(app.config['REDIS_URL'])
