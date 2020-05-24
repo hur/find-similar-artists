@@ -29,7 +29,7 @@ def verify():
     :return: redirects user to Spotify's authorization page
     """
     # https://stackoverflow.com/a/57929497/6538328
-    scope = 'playlist-modify-private,playlist-modify-public,user-top-read'
+    scope = 'playlist-modify-private,playlist-modify-public'
     sp_oauth = spotipy.oauth2.SpotifyOAuth(client_id=current_app.config['SPOTIFY_CLIENT_ID'],
                                            client_secret=current_app.config['SPOTIFY_CLIENT_SECRET'],
                                            redirect_uri=current_app.config['REDIRECT_URL'],
@@ -47,7 +47,7 @@ def callback():
     :return: redirects user to the application
     """
     # https://stackoverflow.com/a/57929497/6538328
-    scope = 'playlist-modify-private,playlist-modify-public,user-top-read'
+    scope = 'playlist-modify-private,playlist-modify-public'
     sp_oauth = spotipy.oauth2.SpotifyOAuth(client_id=current_app.config['SPOTIFY_CLIENT_ID'],
                                            client_secret=current_app.config['SPOTIFY_CLIENT_SECRET'],
                                            redirect_uri=current_app.config['REDIRECT_URL'],
