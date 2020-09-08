@@ -3,7 +3,7 @@
 A flask app that takes an artist as an input and generates a Spotify playlist of top songs of artists recommended based on the input.
 Can use the Spotify API or https://music-map.com for sourcing the recommended artists.
 
-git Live demo at https://find-similar-artists.herokuapp.com/
+Live demo at https://find-similar-artists.herokuapp.com/
 
 ## How to setup development environment
 ### Requirements
