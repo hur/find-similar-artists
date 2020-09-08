@@ -53,11 +53,12 @@ def callback():
                                            redirect_uri=current_app.config['REDIRECT_URL'],
                                            scope=scope,
                                            username="FindSimilarArtists")
+    print(session)
     session.clear()
     code = request.args.get('code')
     token_info = sp_oauth.get_access_token(code)
     session["token_info"] = token_info
-
+    flash("Authorization successful.")
     return redirect(url_for("main.findartist"))
 
 
@@ -75,7 +76,8 @@ def post_artist():
     session['token_info'], authorized = get_token(session)
     session.modified = True
     if not authorized:
-        return redirect(url_for('main.verify'))
+        flash(Markup(f"You need to refresh authorization <a href='{url_for('main.verify')}'>by clicking here</a>"))
+        return redirect(url_for('main.findartist'))
 
     # Initialize variables
     form = ArtistForm()
