@@ -7,6 +7,7 @@ from rq.job import Job
 
 from findartist.forms import ArtistForm
 from findartist.spotify import generate_playlist
+from findartist.utils import job_is_successful
 
 main = Blueprint("main", __name__, static_folder='static')
 
@@ -148,7 +149,7 @@ def get_results(job_key: str):
     except NoSuchJobError:
         return render_template('results.html', job_error="Job not found")
     if job.is_finished:
-        if type(job.result) == str and job.result.startswith(uri_prefix):
+        if job_is_successful(job, uri_prefix):
             uri = job.result[len(uri_prefix):]
             return render_template('results.html', result=uri)
         else:
@@ -161,3 +162,5 @@ def get_results(job_key: str):
 @main.route('/about')
 def about():
     return render_template('about.html')
+
+
