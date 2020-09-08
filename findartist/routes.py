@@ -53,7 +53,6 @@ def callback():
                                            redirect_uri=current_app.config['REDIRECT_URL'],
                                            scope=scope,
                                            username="FindSimilarArtists")
-    print(session)
     session.clear()
     code = request.args.get('code')
     token_info = sp_oauth.get_access_token(code)
