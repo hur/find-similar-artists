@@ -29,6 +29,8 @@ Install requirements:
 
 `pip install -r requirements.txt`
 
+Furthermore, you will need to install `redis-server` for your platform if you will host a development redis server locally.
+
 Set up `.env` file with the needed keys:
 
 ```
@@ -50,7 +52,7 @@ file.
 
 
 Run the app using `flask run`. In some cases using `python -m flask run` instead may resolve issues that occur with `flask run`.
-In another terminal tab, run an rq worker using `rq worker`. This will process the jobs sent to the task queue.
+In another terminal tab, run an rq worker using `rq worker`. This will process the jobs sent to the task queue. Your redis server needs to be set up for this.
 
 For running all tests, use `py.test`
 
