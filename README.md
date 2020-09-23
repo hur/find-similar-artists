@@ -54,5 +54,5 @@ file.
 Run the app using `flask run`. In some cases using `python -m flask run` instead may resolve issues that occur with `flask run`.
 In another terminal tab, run an rq worker using `rq worker`. This will process the jobs sent to the task queue. Your redis server needs to be set up for this.
 
-For running all tests, use `py.test`
+For running all tests, use `pytest`
 
