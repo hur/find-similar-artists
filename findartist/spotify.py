@@ -6,10 +6,6 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# There were issues with passing instance objects to redis, which is the reason I need to go for the approach
-# where I pass the Spotify object to every method
-
-
 def get_artist(name: str, sp: Spotify):
     """
     Search Spotify for an artist
